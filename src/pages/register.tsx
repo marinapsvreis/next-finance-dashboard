@@ -3,6 +3,13 @@ import Image from "next/image";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Input from "@/components/Input";
 
+type RegisterFormData = {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
+
 const Container = styled.div`
   background-color: #2f3349;
   height: 100vh;
@@ -67,7 +74,6 @@ const LoginContainer = styled.div`
   padding: 2rem;
   border-radius: 4px;
 `;
-
 const Button = styled.button`
   width: 100%;
   height: 32px;
@@ -81,22 +87,19 @@ const Button = styled.button`
   font-weight: bold;
 `;
 
-type LoginFormData = {
-  email: string;
-  password: string;
-};
-
-export default function Home() {
+export default function Register() {
   const {
     handleSubmit,
     register,
     watch,
     // formState: { errors },
-  } = useForm<LoginFormData>();
+  } = useForm<RegisterFormData>();
 
-  const onSubmit: SubmitHandler<LoginFormData> = (data) => {
+  const onSubmit: SubmitHandler<RegisterFormData> = (data) => {
+    console.log(watch("name"));
     console.log(watch("email"));
     console.log(watch("password"));
+    console.log(watch("confirmPassword"));
 
     // window.location.href = '/dashboard';
   };
@@ -116,22 +119,32 @@ export default function Home() {
           <LoginContainer>
             <Title>
               <h1>Welcome to Findash! 👋</h1>
-              <p>
-                Please sign-in to your account and see your finance dashboard.
-              </p>
+              <p>Please create your account and see your finance dashboard.</p>
             </Title>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Input
-                type="email"
-                label="Email"
-                placeholder="Enter your email"
+                type={"text"}
+                label={"Name"}
+                placeholder={"Enter your name"}
+                register={register("name")}
+              />
+              <Input
+                type={"email"}
+                label={"Email"}
+                placeholder={"Enter your email"}
                 register={register("email")}
               />
               <Input
-                type="password"
-                label="Password"
-                placeholder="*********"
+                type={"password"}
+                label={"Password"}
+                placeholder={"*********"}
                 register={register("password")}
+              />
+              <Input
+                type={"password"}
+                label={"Confirm password"}
+                placeholder={"*********"}
+                register={register("confirmPassword")}
               />
               <Button type="submit">Sign in</Button>
             </form>
