@@ -7,10 +7,18 @@ const InputContainer = styled.div`
   flex-direction: column;
   gap: 4px;
 
-  padding: 2rem;
   border-radius: 8px;
 
   width: 100%;
+
+  & > label {
+    font-size: 1rem;
+    color: #b6bee3;
+  }
+
+  & > input {
+    height: 32px;
+  }
 `;
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
