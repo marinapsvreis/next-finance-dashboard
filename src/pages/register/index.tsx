@@ -26,11 +26,38 @@ export default function Register() {
     // formState: { errors },
   } = useForm<RegisterFormData>();
 
-  const onSubmit: SubmitHandler<RegisterFormData> = (data) => {
-    console.log(watch("name"));
-    console.log(watch("email"));
-    console.log(watch("password"));
-    console.log(watch("confirmPassword"));
+  const name = watch("name");
+  const email = watch("email");
+  const password = watch("password");
+
+  const newUser = {
+    name,
+    email,
+    password,
+  };
+
+  const onSubmit: SubmitHandler<RegisterFormData> = async () => {
+    console.log('new:', newUser);
+
+    try {
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newUser),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Registration failed:', errorData.error);
+        return;
+      }
+  
+      console.log('Registration successful');
+    } catch (error) {
+      console.error('Error during registration:', error);
+    }
 
     // window.location.href = '/dashboard';
   };
