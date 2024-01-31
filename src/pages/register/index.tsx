@@ -55,6 +55,7 @@ export default function Register() {
       }
   
       console.log('Registration successful');
+      window.location.href = '/';
     } catch (error) {
       console.error('Error during registration:', error);
     }

@@ -10,7 +10,11 @@ export default async function handler(
 ) {
   const { name, email, password } = req.body;
 
-  console.log(req.body);
+  const existingUser = await prisma.user.findUnique({ where: { email } });
+
+  if (existingUser) {
+    return res.status(400).json({ error: "Email is already in use" });
+  }
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -29,7 +33,6 @@ export default async function handler(
     return res.status(201).json(newUser);
 
   } catch (error) {
-    console.error("Error during registration:", error);
-    
+    console.error("Error during registration:", error);    
   } 
 }

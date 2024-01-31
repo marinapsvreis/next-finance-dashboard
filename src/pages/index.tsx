@@ -24,11 +24,33 @@ export default function Home() {
     // formState: { errors },
   } = useForm<LoginFormData>();
 
-  const onSubmit: SubmitHandler<LoginFormData> = (data) => {
-    console.log(watch("email"));
-    console.log(watch("password"));
+  const email = watch("email");
+  const password = watch("password");
 
-    // window.location.href = '/dashboard';
+  const onSubmit: SubmitHandler<LoginFormData> = async () => {
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        // setError(errorData.error);
+        return;
+      }
+
+      const { token } = await response.json();
+
+      window.location.href = '/dashboard';
+    } catch (error) {
+      console.error('Error during login:', error);
+      // setError('Internal Server Error');
+    }
+
   };
 
   return (

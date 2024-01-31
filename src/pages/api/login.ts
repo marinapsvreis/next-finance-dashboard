@@ -31,7 +31,5 @@ export default async function handler(
   } catch (error) {
     console.error("Error during login:", error);
     return res.status(500).json({ error: "Internal server error" });
-  } finally {
-    await prisma.$disconnect();
-  }
+  } 
 }
