@@ -1,14 +1,14 @@
 ## Todo List for this project
 
 Done:
-X Create base page to login
-X Create base page to register
-X Create base page to dashboard
-X Config styled components
-X Config prisma
-X Connect to supabase
-X Login api route
-X Register api route
+- Create base page to login
+- Create base page to register
+- Create base page to dashboard
+- Config styled components
+- Config prisma
+- Connect to supabase
+- Login api route
+- Register api route
 
 To do:
 - JWT Authentication
