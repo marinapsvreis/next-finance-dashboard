@@ -1,5 +1,6 @@
 ## Todo List for this project
 
+Done:
 X Create base page to login
 X Create base page to register
 X Create base page to dashboard
@@ -9,6 +10,7 @@ X Connect to supabase
 X Login api route
 X Register api route
 
+To do:
 - JWT Authentication
 - Private /dashboard route
 - Separate prisma client
