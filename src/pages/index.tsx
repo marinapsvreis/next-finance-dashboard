@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Input from "@/components/Input";
 import FormHeader from "@/components/FormHeader";
+import Cookies from "js-cookie"; 
 import {
   Button,
   Container,
@@ -44,6 +45,8 @@ export default function Home() {
       }
 
       const { token } = await response.json();
+
+      Cookies.set('token', token, { expires: 1 });
 
       window.location.href = '/dashboard';
     } catch (error) {

@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
+import AuthService from "@/services/auth-token";
 
 const prisma = new PrismaClient();
 
@@ -27,9 +28,13 @@ export default async function handler(
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    return res.status(200).json({ message: "Login successful" });
+    const response = await AuthService.createSessionToken({ id: user.id, email: user.email });
+
+    return res.status(200).json({ message: "Login successful", userId: user.id, token: response});
   } catch (error) {
+  
     console.error("Error during login:", error);
+    
     return res.status(500).json({ error: "Internal server error" });
   } 
 }
