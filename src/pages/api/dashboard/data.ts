@@ -1,13 +1,16 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import AuthService from "@/services/auth-token";
-import transactions from "./transactions.json"
+import transactions from "./transactions.json";
 import { JWTPayload } from "jose";
 
 interface Transaction {
-  date: string;
-  industry: string;
-  transaction_type: "deposit" | "withdraw";
+  date: number;
   amount: string;
+  transaction_type: "deposit" | "withdraw";
+  currency: string;
+  account: string;
+  industry: string;
+  state: string;
 }
 
 interface GroupedTransaction {
@@ -29,7 +32,7 @@ export default async function handler(
     return res.status(405).end();
   }
 
-  const { token, month, year } = req.query;
+  const { token } = req.query;
 
   try {
     if (!token) {
@@ -44,27 +47,25 @@ export default async function handler(
 
     const transactionsArray: Transaction[] = (transactions as TransactionsData).data;
 
-    const filterTransactions = (items: Transaction[], selectedMonth: string | undefined, selectedYear: string | undefined): Transaction[] => {
-      return items.filter((item) => {
-        const itemDate = new Date(item.date);
-        const isWithinDateRange =
-          (!selectedMonth || itemDate.getMonth() + 1 === Number(selectedMonth)) &&
-          (!selectedYear || itemDate.getFullYear() === Number(selectedYear));
-        return isWithinDateRange;
+    const formatAmount = (amount: number): number => {
+      return Number(amount.toFixed(2));
+    };
+    
+    const convertValuesAndDates = (items: Transaction[]): Transaction[] => {
+      return items.map((item) => {
+        const formattedAmount = formatAmount(parseFloat(item.amount) / 100);
+    
+        return {
+          ...item,
+          amount: formattedAmount,
+          date: new Date(item.date).toLocaleDateString(),
+        };
       });
     };
+    
+    
 
-    const filteredTransactions: Transaction[] = filterTransactions(transactionsArray, month as string, year as string);
-
-    const convertValuesAndDates = (items: Transaction[]): Transaction[] => {
-      return items.map((item) => ({
-        ...item,
-        amount: (parseFloat(item.amount) / 100).toFixed(2),
-        date: new Date(item.date).toLocaleDateString(),
-      }));
-    };
-
-    const convertedTransactions: Transaction[] = convertValuesAndDates(filteredTransactions);
+    const convertedTransactions: Transaction[] = convertValuesAndDates(transactionsArray);
 
     const groupByFilters = (items: Transaction[]): GroupedTransactions => {
       return items.reduce((grouped, item) => {
