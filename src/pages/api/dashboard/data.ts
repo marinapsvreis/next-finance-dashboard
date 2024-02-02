@@ -1,6 +1,25 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import AuthService from "@/services/auth-token";
-import transactions from "./transactions.json";
+import transactions from "./transactions.json"
+import { JWTPayload } from "jose";
+
+interface Transaction {
+  date: string;
+  industry: string;
+  transaction_type: "deposit" | "withdraw";
+  amount: string;
+}
+
+interface GroupedTransaction {
+  totalRevenues: number;
+  totalExpenses: number;
+}
+
+interface GroupedTransactions {
+  [key: string]: {
+    [industry: string]: GroupedTransaction;
+  };
+}
 
 export default async function handler(
   req: NextApiRequest,
@@ -17,15 +36,15 @@ export default async function handler(
       return res.status(401).json({ error: "Token not provided" });
     }
 
-    const decodedToken = await AuthService.openSessionToken(token as string);
+    const decodedToken: JWTPayload = await AuthService.openSessionToken(token as string);
 
-    if (!decodedToken) {
-      return res.status(401).json({ error: "Invalid token" });
+    interface TransactionsData {
+      data: Transaction[];
     }
 
-    const transactionsArray = transactions.data;
+    const transactionsArray: Transaction[] = (transactions as TransactionsData).data;
 
-    const filterTransactions = (items, selectedMonth, selectedYear) => {
+    const filterTransactions = (items: Transaction[], selectedMonth: string | undefined, selectedYear: string | undefined): Transaction[] => {
       return items.filter((item) => {
         const itemDate = new Date(item.date);
         const isWithinDateRange =
@@ -35,9 +54,9 @@ export default async function handler(
       });
     };
 
-    const filteredTransactions = filterTransactions(transactionsArray, month, year);
+    const filteredTransactions: Transaction[] = filterTransactions(transactionsArray, month as string, year as string);
 
-    const convertValuesAndDates = (items) => {
+    const convertValuesAndDates = (items: Transaction[]): Transaction[] => {
       return items.map((item) => ({
         ...item,
         amount: (parseFloat(item.amount) / 100).toFixed(2),
@@ -45,9 +64,9 @@ export default async function handler(
       }));
     };
 
-    const convertedTransactions = convertValuesAndDates(filteredTransactions);
+    const convertedTransactions: Transaction[] = convertValuesAndDates(filteredTransactions);
 
-    const groupByFilters = (items) => {
+    const groupByFilters = (items: Transaction[]): GroupedTransactions => {
       return items.reduce((grouped, item) => {
         const { date, industry, transaction_type } = item;
 
@@ -76,18 +95,16 @@ export default async function handler(
         }
 
         return grouped;
-      }, {});
+      }, {} as GroupedTransactions);
     };
 
-    const groupedTransactions = groupByFilters(convertedTransactions);
+    const groupedTransactions: GroupedTransactions = groupByFilters(convertedTransactions);
 
-    // Sort keys by date
     const sortedKeys = Object.keys(groupedTransactions).sort(
       (keyA, keyB) => {
         const [monthA, yearA] = keyA.split('/').map(Number);
         const [monthB, yearB] = keyB.split('/').map(Number);
 
-        // Sort first by year, then by month
         if (yearA !== yearB) {
           return yearA - yearB;
         }
@@ -95,8 +112,7 @@ export default async function handler(
       }
     );
 
-    // Create the final ordered object
-    const orderedTransactions = {};
+    const orderedTransactions: GroupedTransactions = {};
     sortedKeys.forEach((key) => {
       orderedTransactions[key] = groupedTransactions[key];
     });
