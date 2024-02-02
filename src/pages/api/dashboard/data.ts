@@ -10,15 +10,14 @@ export default async function handler(
     return res.status(405).end();
   }
 
-  const token = req.query.token as string | undefined;
-  const { startDate, endDate } = req.query;
+  const { token, month, year } = req.query;
 
   try {
     if (!token) {
       return res.status(401).json({ error: "Token not provided" });
     }
 
-    const decodedToken = await AuthService.openSessionToken(token);
+    const decodedToken = await AuthService.openSessionToken(token as string);
 
     if (!decodedToken) {
       return res.status(401).json({ error: "Invalid token" });
@@ -26,88 +25,88 @@ export default async function handler(
 
     const transactionsArray = transactions.data;
 
-    const filterTransactions = (itens) => {
-      return itens.filter((item) => {
+    const filterTransactions = (items, selectedMonth, selectedYear) => {
+      return items.filter((item) => {
         const itemDate = new Date(item.date);
         const isWithinDateRange =
-          (!startDate || itemDate >= new Date(startDate as string)) &&
-          (!endDate || itemDate <= new Date(endDate as string));
+          (!selectedMonth || itemDate.getMonth() + 1 === Number(selectedMonth)) &&
+          (!selectedYear || itemDate.getFullYear() === Number(selectedYear));
         return isWithinDateRange;
       });
     };
 
-    const filteredTransactions = filterTransactions(transactionsArray);
+    const filteredTransactions = filterTransactions(transactionsArray, month, year);
 
-    const converterValoresEDatas = (itens) => {
-      return itens.map((item) => ({
+    const convertValuesAndDates = (items) => {
+      return items.map((item) => ({
         ...item,
         amount: (parseFloat(item.amount) / 100).toFixed(2),
         date: new Date(item.date).toLocaleDateString(),
       }));
     };
 
-    const transacoesConvertidas = converterValoresEDatas(filteredTransactions);
+    const convertedTransactions = convertValuesAndDates(filteredTransactions);
 
-    const agruparPorFiltros = (itens) => {
-      return itens.reduce((agrupado, item) => {
+    const groupByFilters = (items) => {
+      return items.reduce((grouped, item) => {
         const { date, industry, transaction_type } = item;
 
         const itemDate = new Date(date);
-        const month = itemDate.getMonth() + 1; // meses são base 0, então adicionamos 1
+        const month = itemDate.getMonth() + 1;
         const year = itemDate.getFullYear();
         const key = `${month.toString().padStart(2, '0')}/${year}`;
 
-        if (!agrupado[key]) {
-          agrupado[key] = {};
+        if (!grouped[key]) {
+          grouped[key] = {};
         }
 
-        if (!agrupado[key][industry]) {
-          agrupado[key][industry] = {
-            totalReceitas: 0,
-            totalDespesas: 0,
+        if (!grouped[key][industry]) {
+          grouped[key][industry] = {
+            totalRevenues: 0,
+            totalExpenses: 0,
           };
         }
 
         const amount = parseFloat(item.amount);
 
         if (transaction_type === 'deposit') {
-          agrupado[key][industry].totalReceitas += amount;
+          grouped[key][industry].totalRevenues += amount;
         } else if (transaction_type === 'withdraw') {
-          agrupado[key][industry].totalDespesas += amount;
+          grouped[key][industry].totalExpenses += amount;
         }
 
-        return agrupado;
+        return grouped;
       }, {});
     };
 
-    const transacoesAgrupadas = agruparPorFiltros(transacoesConvertidas);
+    const groupedTransactions = groupByFilters(convertedTransactions);
 
-    // Ordenar as chaves por data
-    const chavesOrdenadas = Object.keys(transacoesAgrupadas).sort(
-      (chaveA, chaveB) => {
-        const [mesA, anoA] = chaveA.split('/').map(Number);
-        const [mesB, anoB] = chaveB.split('/').map(Number);
+    // Sort keys by date
+    const sortedKeys = Object.keys(groupedTransactions).sort(
+      (keyA, keyB) => {
+        const [monthA, yearA] = keyA.split('/').map(Number);
+        const [monthB, yearB] = keyB.split('/').map(Number);
 
-        // Ordene primeiro pelo ano e, em seguida, pelo mês
-        if (anoA !== anoB) {
-          return anoA - anoB;
+        // Sort first by year, then by month
+        if (yearA !== yearB) {
+          return yearA - yearB;
         }
-        return mesA - mesB;
+        return monthA - monthB;
       }
     );
 
-    // Criar o objeto final ordenado
-    const transacoesOrdenadas = {};
-    chavesOrdenadas.forEach((chave) => {
-      transacoesOrdenadas[chave] = transacoesAgrupadas[chave];
+    // Create the final ordered object
+    const orderedTransactions = {};
+    sortedKeys.forEach((key) => {
+      orderedTransactions[key] = groupedTransactions[key];
     });
 
     return res.status(200).json({
-      message: "Dados do usuário",
-      agrupadoPorFiltros: transacoesOrdenadas,
+      message: "User data",
+      groupedByFilters: orderedTransactions,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     return res.status(500).json({ error: 'Internal server error' });
   }
