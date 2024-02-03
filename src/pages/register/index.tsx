@@ -74,8 +74,8 @@ export default function Register() {
           <Image
             src="/cover-image.jpg"
             alt="Example Image"
-            width={500}
-            height={300}
+            width={2000}
+            height={1500}
           />
         </LeftContainer>
         <RightContainer>
@@ -125,7 +125,7 @@ export default function Register() {
                 <MessageError>{errors.confirmPassword.message}</MessageError>
               )}
 
-              <Button type="submit">Sign in</Button>
+              <Button type="submit">Sign up</Button>
             </FormContainer>
           </LoginContainer>
         </RightContainer>
