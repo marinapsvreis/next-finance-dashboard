@@ -1,6 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Highcharts from "highcharts";
+import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 const Container = styled.div`
   background-color: red;
@@ -11,6 +13,38 @@ const Title = styled.div`
 `;
 
 const Dashboard = () => {
+  const [tokenValid, setTokenValid] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const verifyToken = async () => {
+      try {
+
+        const token = Cookies.get("token");
+
+        const response = await fetch("/api/verifyToken", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token }),
+        });
+
+        if (response.ok) {
+          setTokenValid(true);
+        } else {
+          console.error("Error verifying token:", response.statusText);
+          router.push("/");
+        }
+      } catch (error) {
+        console.error("Error verifying token:", error);
+        router.push("/");
+      }
+    };
+
+    verifyToken();
+  }, [router]);
+
   useEffect(() => {
     const industriesData = {
       Advertising: {

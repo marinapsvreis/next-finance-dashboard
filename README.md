@@ -13,9 +13,10 @@ Done:
 - Separate prisma client
 - Validate form fields
 - Implement toast alerts
+- API Route to verify token
+- Private /dashboard route
 
 To do:
-- Private /dashboard route
 - Improve styles (Add MUI or Chakra)
 - Sidebar (Home + Logout)
 - Responsive design
