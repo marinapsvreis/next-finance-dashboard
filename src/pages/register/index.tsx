@@ -1,63 +1,69 @@
 import Image from "next/image";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import Input from "@/components/Input";
 import FormHeader from "@/components/FormHeader";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import {
   Button,
   Container,
   FormContainer,
   LeftContainer,
   LoginContainer,
+  MessageError,
   RightContainer,
 } from "@/pages/styles";
 
-type RegisterFormData = {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
+const schema = yup.object().shape({
+  name: yup.string().min(2).max(50).required(),
+  email: yup.string().email().required(),
+  password: yup.string().min(6).required(),
+  confirmPassword: yup
+    .string()
+    .min(6)
+    .oneOf([yup.ref("password")], "passwords must match")
+    .nullable(),
+});
+
+type RegisterFormData = yup.InferType<typeof schema>;
 
 export default function Register() {
   const {
     handleSubmit,
     register,
-    watch,
-    // formState: { errors },
-  } = useForm<RegisterFormData>();
+    formState: { errors },
+  } = useForm<RegisterFormData>({
+    resolver: yupResolver(schema),
+  });
 
-  const name = watch("name");
-  const email = watch("email");
-  const password = watch("password");
-
-  const newUser = {
-    name,
-    email,
-    password,
-  };
-
-  const onSubmit: SubmitHandler<RegisterFormData> = async () => {
-    console.log('new:', newUser);
+  const onSubmit: SubmitHandler<RegisterFormData> = async (formData) => {
+    console.log("new:", formData);
 
     try {
-      const response = await fetch('/api/register', {
-        method: 'POST',
+      const response = await fetch("/api/register", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(newUser),
+        body: JSON.stringify(formData),
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('Registration failed:', errorData.error);
+        toast.error(`Registration failed: ${errorData.error}`);
         return;
       }
-  
-      console.log('Registration successful');
-      window.location.href = '/';
+
+      toast.success("Registration successful");
+      
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 2000);
     } catch (error) {
-      console.error('Error during registration:', error);
+      toast.error(`Registration failed: ${error}`);
     }
   };
 
@@ -85,28 +91,45 @@ export default function Register() {
                 placeholder={"Enter your name"}
                 register={register("name")}
               />
+              {errors.name && (
+                <MessageError>{errors.name.message}</MessageError>
+              )}
+
               <Input
                 type={"email"}
                 label={"Email"}
                 placeholder={"Enter your email"}
                 register={register("email")}
               />
+              {errors.email && (
+                <MessageError>{errors.email.message}</MessageError>
+              )}
+
               <Input
                 type={"password"}
                 label={"Password"}
                 placeholder={"*********"}
                 register={register("password")}
               />
+              {errors.password && (
+                <MessageError>{errors.password.message}</MessageError>
+              )}
+
               <Input
                 type={"password"}
                 label={"Confirm password"}
                 placeholder={"*********"}
                 register={register("confirmPassword")}
               />
+              {errors.confirmPassword && (
+                <MessageError>{errors.confirmPassword.message}</MessageError>
+              )}
+
               <Button type="submit">Sign in</Button>
             </FormContainer>
           </LoginContainer>
         </RightContainer>
+        <ToastContainer position="bottom-right" autoClose={3000} />
       </Container>
     </>
   );

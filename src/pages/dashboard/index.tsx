@@ -1,9 +1,6 @@
 import { useEffect } from "react";
 import styled from "styled-components";
 import Highcharts from "highcharts";
-import HighchartsReact from "highcharts-react-official";
-import Cookies from "js-cookie";
-import AuthService from "@/services/auth-token";
 
 const Container = styled.div`
   background-color: red;
