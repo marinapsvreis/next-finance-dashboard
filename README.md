@@ -1,9 +1,9 @@
 ## Todo List for this project
 
 Done:
-- Create base page to login
-- Create base page to register
-- Create base page to dashboard
+- Page to login
+- Page to register
+- Page to dashboard
 - Config styled components
 - Config prisma
 - Connect to supabase
@@ -11,12 +11,12 @@ Done:
 - Register api route
 - JWT Authentication
 - Separate prisma client
+- Validate form fields
+- Implement toast alerts
 
 To do:
 - Private /dashboard route
 - Improve styles (Add MUI or Chakra)
-- Validate form fields
-- Implement toast alerts
 - Sidebar (Home + Logout)
 - Responsive design
 - Update README to run project
