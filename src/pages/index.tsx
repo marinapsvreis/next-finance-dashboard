@@ -13,6 +13,7 @@ import {
   FormContainer,
   LeftContainer,
   LoginContainer,
+  MessageError,
   RightContainer,
 } from "@/pages/styles";
 
@@ -94,12 +95,18 @@ export default function Home() {
                 placeholder="Enter your email"
                 register={register("email")}
               />
+              {errors.email && (
+                <MessageError>{errors.email.message}</MessageError>
+              )}
               <Input
                 type="password"
                 label="Password"
                 placeholder="*********"
                 register={register("password")}
               />
+              {errors.password && (
+                <MessageError>{errors.password.message}</MessageError>
+              )}
               <Button type="submit">Sign in</Button>
             </FormContainer>
           </LoginContainer>
