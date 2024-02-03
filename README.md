@@ -9,21 +9,21 @@ Done:
 - Connect to supabase
 - Login api route
 - Register api route
+- JWT Authentication
+- Separate prisma client
 
 To do:
-- JWT Authentication
 - Private /dashboard route
-- Separate prisma client
 - Improve styles (Add MUI or Chakra)
 - Validate form fields
 - Implement toast alerts
-- Mock data to build dashboards and cards (Charts.js or Highcharts)
-- Implement filters to see dashboards (date, account, industry and state)
 - Sidebar (Home + Logout)
 - Responsive design
-- Save in local storage filter config by user
 - Update README to run project
 - Vercel deploy
+- Mock data to build dashboards and cards (Charts.js or Highcharts)
+- Implement filters to see dashboards (date, account, industry and state)
+- Save in local storage filter config by user
 - Unit tests
 - Cache Next.js
 

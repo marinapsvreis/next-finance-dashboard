@@ -59,8 +59,6 @@ export default function Register() {
     } catch (error) {
       console.error('Error during registration:', error);
     }
-
-    // window.location.href = '/dashboard';
   };
 
   return (
