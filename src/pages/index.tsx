@@ -4,8 +4,8 @@ import Input from "@/components/Input";
 import FormHeader from "@/components/FormHeader";
 import Cookies from "js-cookie";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   Button,
@@ -29,12 +29,17 @@ export default function Home() {
     password: yup.string().required(),
   });
 
-  const { handleSubmit, register, watch, formState: { errors } } = useForm<LoginFormData>({
+  const {
+    handleSubmit,
+    register,
+    watch,
+    formState: { errors },
+  } = useForm<LoginFormData>({
     resolver: yupResolver(schema),
   });
 
   const email = watch("email");
-  const password = watch("password");  
+  const password = watch("password");
 
   const onSubmit: SubmitHandler<LoginFormData> = async () => {
     try {
@@ -56,7 +61,7 @@ export default function Home() {
 
       Cookies.set("token", token, { expires: 1 });
 
-      toast.success('Login successful');
+      toast.success("Login successful");
       setTimeout(() => {
         window.location.href = "/dashboard";
       }, 2000);
@@ -72,8 +77,8 @@ export default function Home() {
           <Image
             src="/cover-image.jpg"
             alt="Example Image"
-            width={500}
-            height={300}
+            width={2000}
+            height={1500}
           />
         </LeftContainer>
         <RightContainer>

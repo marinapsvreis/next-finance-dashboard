@@ -13,11 +13,15 @@ const InputContainer = styled.div`
 
   & > label {
     font-size: 1rem;
-    color: #b6bee3;
+    color: #5F6C73;
   }
 
   & > input {
-    height: 32px;
+    height: 40px;
+    padding: 4px 8px;
+    border: 0.2px solid #5F6C7350;
+    border-radius: 8px;
+    background-color: white;
   }
 `;
 

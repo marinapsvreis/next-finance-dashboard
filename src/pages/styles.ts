@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  background-color: #2f3349;
+  background-color: #fafafa;
   height: 100vh;
 
   display: flex;
@@ -53,12 +53,12 @@ export const FormContainer = styled.form`
 
 export const Button = styled.button`
   width: 100%;
-  height: 32px;
+  height: 40px;
   margin-top: 8px;
-  border: 1px solid #7367f0;
+  border: 1px solid #4996FE;
   border-radius: 4px;
 
-  background-color: #7367f0;
+  background-color: #4996FE;
   color: white;
 
   font-weight: bold;

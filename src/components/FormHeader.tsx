@@ -11,13 +11,13 @@ const FormHeaderContainer = styled.div`
   & > h1 {
     font-size: 1.6rem;
     margin-bottom: 8px;
-    color: #cfd3e6;
+    color: #4996FE;
     font-weight: 500;
   }
 
   & > p {
     font-size: 1rem;
-    color: #b6bee3;
+    color: #5F6C73;
     margin-top: -8px;
   }
 `;
