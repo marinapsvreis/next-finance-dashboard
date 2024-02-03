@@ -4,12 +4,68 @@ import Highcharts from "highcharts";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 
-const Container = styled.div`
-  background-color: red;
+export const DashboardContainer = styled.div`
+  background-color: #fafafa;
+  min-height: 100vh;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+`;
+
+export const Sidebar = styled.div`
+  background-color: #fff;
+  width: 300px;
+  height: 100vh;
+  position: fixed;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+`;
+
+export const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+
+  margin-left: 320px;
+  max-width: calc(100vw - 320px);
 `;
 
 const Title = styled.div`
-  color: white;
+  color: #5f6c73;
+  font-size: 24px;
+  margin-bottom: 20px;
+  width: 100%;
+`;
+
+const CardsContainer = styled.div`
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+`;
+
+const Card = styled.div`
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+  width: 430px;
+`;
+
+const GraphContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+`;
+
+const GraphCard = styled.div`
+  height: 440px;
+  width: 749px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
 `;
 
 const Dashboard = () => {
@@ -19,7 +75,6 @@ const Dashboard = () => {
   useEffect(() => {
     const verifyToken = async () => {
       try {
-
         const token = Cookies.get("token");
 
         const response = await fetch("/api/verifyToken", {
@@ -63,11 +118,11 @@ const Dashboard = () => {
         totalRevenues: 6799.259999999998,
         totalExpenses: 7002.079999999998,
       },
-      "Hotels": {
+      Hotels: {
         totalRevenues: 5361.140000000002,
         totalExpenses: 5162.6900000000005,
       },
-      "Airlines": {
+      Airlines: {
         totalRevenues: 3867.789999999999,
         totalExpenses: 3437.809999999999,
       },
@@ -75,7 +130,7 @@ const Dashboard = () => {
         totalRevenues: 6369.54,
         totalExpenses: 5595.59,
       },
-      "Education": {
+      Education: {
         totalRevenues: 907.24,
         totalExpenses: 1118.1399999999999,
       },
@@ -83,7 +138,7 @@ const Dashboard = () => {
         totalRevenues: 4025.479999999999,
         totalExpenses: 3261.4899999999993,
       },
-      "Mail": {
+      Mail: {
         totalRevenues: 592.12,
         totalExpenses: 748.9300000000001,
       },
@@ -102,39 +157,88 @@ const Dashboard = () => {
         type: "column",
       },
       title: {
-        text: "Receitas e Despesas por Indústria",
+        text: "Deposits and Withdraws by Industry",
       },
       xAxis: {
         categories: chartData.map((item) => item.name),
       },
       yAxis: {
         title: {
-          text: "Valor",
+          text: "Amount",
         },
       },
       series: [
         {
           name: "Withdraw",
           data: chartData.map((item) => item.withdraw),
-          color: "rgba(255, 165, 0, 0.7)",
+          color: "#B9D3FF",
         },
         {
           name: "Deposit",
           data: chartData.map((item) => item.deposit),
-          color: "rgba(144, 238, 144, 0.7)",
+          color: "#007DFF",
+        },
+      ],
+    };
+
+    const options2 = {
+      chart: {
+        type: "line",
+      },
+      title: {
+        text: "Deposits and Withdraws by Industry",
+      },
+      xAxis: {
+        categories: chartData.map((item) => item.name),
+      },
+      yAxis: {
+        title: {
+          text: "Amount",
+        },
+      },
+      series: [
+        {
+          name: "Withdraw",
+          data: chartData.map((item) => item.withdraw),
+          color: "#B9D3FF",
+        },
+        {
+          name: "Deposit",
+          data: chartData.map((item) => item.deposit),
+          color: "#007DFF",
         },
       ],
     };
 
     Highcharts.chart("chart-container", options as Highcharts.Options);
+    Highcharts.chart("chart-container2", options2 as Highcharts.Options);
   }, []);
 
   return (
     <>
-      <Container>
-        <Title>Dashboard</Title>
-      </Container>
-      <div id="chart-container"></div>
+      <DashboardContainer>
+        <Sidebar>
+          <p>Home</p>
+          <p>Logout</p>
+        </Sidebar>
+        <ContentContainer>
+          <Title>Dashboard</Title>
+          <CardsContainer>
+            <Card>Income</Card>
+            <Card>Expenses</Card>
+            <Card>Pending Transactions</Card>
+            <Card>Total Balance</Card>
+          </CardsContainer>
+          <GraphContainer>
+            <GraphCard>
+              <div id="chart-container"></div>
+            </GraphCard>
+            <GraphCard>
+              <div id="chart-container2"></div>
+            </GraphCard>
+          </GraphContainer>
+        </ContentContainer>
+      </DashboardContainer>
     </>
   );
 };
