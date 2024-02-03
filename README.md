@@ -17,9 +17,9 @@ Done:
 - Private /dashboard route
 
 To do:
-- Improve styles (Add MUI or Chakra)
 - Sidebar (Home + Logout)
 - Responsive design
+- Improve styles (Add MUI or Chakra)
 - Update README to run project
 - Vercel deploy
 - Mock data to build dashboards and cards (Charts.js or Highcharts)
