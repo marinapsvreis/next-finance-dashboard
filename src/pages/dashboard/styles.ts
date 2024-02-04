@@ -25,6 +25,12 @@ export const Title = styled.div`
   width: 100%;
 `;
 
+export const FiltersContainer = styled.div`
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+`;
+
 export const CardsContainer = styled.div`
   display: flex;
   gap: 20px;

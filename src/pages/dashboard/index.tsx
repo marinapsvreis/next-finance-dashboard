@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import Sidebar from "@/components/Sidebar";
 import BarGraphic from "@/components/BarGraphic";
 import LineGraphic from "@/components/LineGraphic";
-import { Card, CardsContainer, ContentContainer, DashboardContainer, GraphContainer, Title } from "./styles";
+import { Card, CardsContainer, ContentContainer, DashboardContainer, FiltersContainer, GraphContainer, Title } from "./styles";
 
 interface ChartDataItem {
   name: string;
@@ -18,33 +18,19 @@ const Dashboard = () => {
   const [barChartData, setBarChartData] = useState<ChartDataItem[]>([]);
   const [lineChartData, setLineChartData] = useState<ChartDataItem[]>([]);
 
-  useEffect(() => {
-    const verifyToken = async () => {
-      try {
-        const token = Cookies.get("token");
+  const token = Cookies.get("token");
 
-        const response = await fetch("/api/verifyToken", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ token }),
-        });
-
-        if (response.ok) {
-          setTokenValid(true);
-        } else {
-          console.error("Error verifying token:", response.statusText);
-          router.push("/");
-        }
-      } catch (error) {
-        console.error("Error verifying token:", error);
-        router.push("/");
-      }
-    };
-
-    verifyToken();
-  }, [router]);
+  const [filterLists, setFilterLists] = useState<{
+    dates: string[];
+    industries: string[];
+    accounts: string[];
+    states: string[];
+  }>({
+    dates: [],
+    industries: [],
+    accounts: [],
+    states: [],
+  });
 
   useEffect(() => {
     const industriesData = {
@@ -102,12 +88,68 @@ const Dashboard = () => {
     setLineChartData(newChartData);
   }, []);
 
+  useEffect(() => {
+    const fetchFilterLists = async () => {
+      try {
+        const response = await fetch(`/api/dashboard/filtersLists?token=${token}`);
+        if (response.ok) {
+          const data = await response.json();
+          setFilterLists(data.data);
+        } else {
+          console.error("Error fetching filter lists:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching filter lists:", error);
+      }
+    };
+
+    fetchFilterLists();
+  }, [token]);
+
+  useEffect(() => {
+    const verifyToken = async () => {
+      try {
+        const response = await fetch("/api/verifyToken", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token }),
+        });
+
+        if (response.ok) {
+          setTokenValid(true);
+        } else {
+          console.error("Error verifying token:", response.statusText);
+          router.push("/");
+        }
+      } catch (error) {
+        console.error("Error verifying token:", error);
+        router.push("/");
+      }
+    };
+
+    verifyToken();
+  }, [router]);
+
   return (
     <>
       <DashboardContainer>
         <Sidebar />
         <ContentContainer>
           <Title>Dashboard</Title>
+          <FiltersContainer>
+          {Object.entries(filterLists).map(([key, options], index) => (
+              <select key={index} name={key} id={key}>
+                <option value="">All</option>
+                {options.map((option, optionIndex) => (
+                  <option key={optionIndex} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            ))}
+          </FiltersContainer>
           <CardsContainer>
             <Card>Income</Card>
             <Card>Expenses</Card>
