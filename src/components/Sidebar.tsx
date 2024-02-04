@@ -1,4 +1,5 @@
-import { Gauge, House, SignOut } from "@phosphor-icons/react";
+import { Gauge, House, SignOut } from "@phosphor-icons/react";[]
+import Cookies from 'js-cookie';
 import styled from "styled-components";
 
 export const SidebarContainer = styled.div`
@@ -66,6 +67,12 @@ export const LogoutContainer = styled.div`
 `;
 
 export default function Sidebar() {
+  const handleLogout = () => {
+    Cookies.remove('token');
+
+    window.location.href = '/';
+  };
+
   return (
     <SidebarContainer>
       <div>
@@ -79,7 +86,7 @@ export default function Sidebar() {
           </NavItemContainer>
         </NavItemsContainer>
       </div>
-      <LogoutContainer>
+      <LogoutContainer onClick={handleLogout}>
         Logout
         <SignOut size={24} />
       </LogoutContainer>
