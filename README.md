@@ -20,6 +20,7 @@ Done:
 - Mock data to build dashboards and cards (Highcharts)
 
 To do:
+- Button to go create an account
 - Responsive design
 - Update README to run project
 - Vercel deploy

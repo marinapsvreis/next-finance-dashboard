@@ -41,7 +41,7 @@ export default function Home() {
       <Container>
         <FormHeader
           title="Welcome to Findash"
-          subtitle="Please click bellow to see you dashboard"
+          subtitle="Please click bellow to see your dashboard"
         />
         <Button onClick={handleGoToDashboard}>Go to dashboard</Button>
       </Container>
