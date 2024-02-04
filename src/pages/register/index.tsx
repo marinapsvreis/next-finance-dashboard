@@ -40,8 +40,6 @@ export default function Register() {
   });
 
   const onSubmit: SubmitHandler<RegisterFormData> = async (formData) => {
-    console.log("new:", formData);
-
     try {
       const response = await fetch("/api/register", {
         method: "POST",
