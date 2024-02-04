@@ -1,76 +1,22 @@
 import { useEffect, useState } from "react";
-import styled from "styled-components";
-import Highcharts from "highcharts";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
+import Sidebar from "@/components/Sidebar";
+import BarGraphic from "@/components/BarGraphic";
+import LineGraphic from "@/components/LineGraphic";
+import { Card, CardsContainer, ContentContainer, DashboardContainer, GraphContainer, Title } from "./styles";
 
-export const DashboardContainer = styled.div`
-  background-color: #fafafa;
-  min-height: 100vh;
-
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-`;
-
-export const Sidebar = styled.div`
-  background-color: #fff;
-  width: 300px;
-  height: 100vh;
-  position: fixed;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-`;
-
-export const ContentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-
-  margin-left: 320px;
-  max-width: calc(100vw - 320px);
-`;
-
-const Title = styled.div`
-  color: #5f6c73;
-  font-size: 24px;
-  margin-bottom: 20px;
-  width: 100%;
-`;
-
-const CardsContainer = styled.div`
-  display: flex;
-  gap: 20px;
-  margin-bottom: 20px;
-`;
-
-const Card = styled.div`
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-  width: 430px;
-`;
-
-const GraphContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-`;
-
-const GraphCard = styled.div`
-  height: 440px;
-  width: 749px;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-`;
+interface ChartDataItem {
+  name: string;
+  withdraw: number;
+  deposit: number;
+}
 
 const Dashboard = () => {
   const [tokenValid, setTokenValid] = useState(false);
   const router = useRouter();
+  const [barChartData, setBarChartData] = useState<ChartDataItem[]>([]);
+  const [lineChartData, setLineChartData] = useState<ChartDataItem[]>([]);
 
   useEffect(() => {
     const verifyToken = async () => {
@@ -144,7 +90,7 @@ const Dashboard = () => {
       },
     };
 
-    const chartData = Object.entries(industriesData).map(
+    const newChartData = Object.entries(industriesData).map(
       ([industry, data]) => ({
         name: industry,
         deposit: data.totalRevenues,
@@ -152,75 +98,14 @@ const Dashboard = () => {
       })
     );
 
-    const options = {
-      chart: {
-        type: "column",
-      },
-      title: {
-        text: "Deposits and Withdraws by Industry",
-      },
-      xAxis: {
-        categories: chartData.map((item) => item.name),
-      },
-      yAxis: {
-        title: {
-          text: "Amount",
-        },
-      },
-      series: [
-        {
-          name: "Withdraw",
-          data: chartData.map((item) => item.withdraw),
-          color: "#B9D3FF",
-        },
-        {
-          name: "Deposit",
-          data: chartData.map((item) => item.deposit),
-          color: "#007DFF",
-        },
-      ],
-    };
-
-    const options2 = {
-      chart: {
-        type: "line",
-      },
-      title: {
-        text: "Deposits and Withdraws by Industry",
-      },
-      xAxis: {
-        categories: chartData.map((item) => item.name),
-      },
-      yAxis: {
-        title: {
-          text: "Amount",
-        },
-      },
-      series: [
-        {
-          name: "Withdraw",
-          data: chartData.map((item) => item.withdraw),
-          color: "#B9D3FF",
-        },
-        {
-          name: "Deposit",
-          data: chartData.map((item) => item.deposit),
-          color: "#007DFF",
-        },
-      ],
-    };
-
-    Highcharts.chart("chart-container", options as Highcharts.Options);
-    Highcharts.chart("chart-container2", options2 as Highcharts.Options);
+    setBarChartData(newChartData);
+    setLineChartData(newChartData);
   }, []);
 
   return (
     <>
       <DashboardContainer>
-        <Sidebar>
-          <p>Home</p>
-          <p>Logout</p>
-        </Sidebar>
+        <Sidebar />
         <ContentContainer>
           <Title>Dashboard</Title>
           <CardsContainer>
@@ -230,12 +115,14 @@ const Dashboard = () => {
             <Card>Total Balance</Card>
           </CardsContainer>
           <GraphContainer>
-            <GraphCard>
-              <div id="chart-container"></div>
-            </GraphCard>
-            <GraphCard>
-              <div id="chart-container2"></div>
-            </GraphCard>
+            <BarGraphic
+              title="Deposits and Withdraws by Industry"
+              chartData={barChartData}
+            />
+            <LineGraphic
+              title="Deposits and Withdraws by Industry"
+              chartData={lineChartData}
+            />
           </GraphContainer>
         </ContentContainer>
       </DashboardContainer>
