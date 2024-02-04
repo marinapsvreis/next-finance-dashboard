@@ -4,7 +4,16 @@ import Cookies from "js-cookie";
 import Sidebar from "@/components/Sidebar";
 import BarGraphic from "@/components/BarGraphic";
 import LineGraphic from "@/components/LineGraphic";
-import { Card, CardsContainer, ContentContainer, DashboardContainer, FiltersContainer, GraphContainer, Title } from "./styles";
+import {
+  CardsContainer,
+  ContentContainer,
+  DashboardContainer,
+  FiltersContainer,
+  GraphContainer,
+  Title,
+} from "./styles";
+import { CaretDown, CaretUp, Coins, Warning } from "@phosphor-icons/react";
+import CardDashboard from "@/components/CardDashboard";
 
 interface ChartDataItem {
   name: string;
@@ -91,7 +100,9 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchFilterLists = async () => {
       try {
-        const response = await fetch(`/api/dashboard/filtersLists?token=${token}`);
+        const response = await fetch(
+          `/api/dashboard/filtersLists?token=${token}`
+        );
         if (response.ok) {
           const data = await response.json();
           setFilterLists(data.data);
@@ -139,7 +150,7 @@ const Dashboard = () => {
         <ContentContainer>
           <Title>Dashboard</Title>
           <FiltersContainer>
-          {Object.entries(filterLists).map(([key, options], index) => (
+            {Object.entries(filterLists).map(([key, options], index) => (
               <select key={index} name={key} id={key}>
                 <option value="">All</option>
                 {options.map((option, optionIndex) => (
@@ -151,10 +162,26 @@ const Dashboard = () => {
             ))}
           </FiltersContainer>
           <CardsContainer>
-            <Card>Income</Card>
-            <Card>Expenses</Card>
-            <Card>Pending Transactions</Card>
-            <Card>Total Balance</Card>
+            <CardDashboard
+              icon={<CaretUp size={42} color="#4996FE" />}
+              amount={"$ 1000.00"}
+              description="Income"
+            />
+            <CardDashboard
+              icon={<CaretDown size={42} color="#4996FE" />}
+              amount={"$ 500.00"}
+              description="Expenses"
+            />
+            <CardDashboard
+              icon={<Warning size={42} color="#4996FE" />}
+              amount={"$ 200.00"}
+              description="Pending Transactions"
+            />
+            <CardDashboard
+              icon={<Coins size={42} color="#4996FE" />}
+              amount={"$ 300.00"}
+              description="Total Balance"
+            />
           </CardsContainer>
           <GraphContainer>
             <BarGraphic

@@ -37,14 +37,6 @@ export const CardsContainer = styled.div`
   margin-bottom: 20px;
 `;
 
-export const Card = styled.div`
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-  width: 430px;
-`;
-
 export const GraphContainer = styled.div`
   display: flex;
   flex-wrap: wrap;

@@ -1,3 +1,4 @@
+import { Gauge, House, SignOut } from "@phosphor-icons/react";
 import styled from "styled-components";
 
 export const SidebarContainer = styled.div`
@@ -8,15 +9,80 @@ export const SidebarContainer = styled.div`
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
-export default function Sidebar() { 
+export const LogoContainer = styled.div`
+  font-size: 24px;
+  font-weight: 600;
+  color: #4996fe;
+`;
+
+export const NavItemsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  margin-top: 60px;
+`;
+
+export const NavItemContainer = styled.div`
+  display: flex;
+  gap: 20px;
+
+  & > p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #5f6c73;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+
+    &:hover {
+      color: #2d2d2d;
+    }
+  }
+`;
+
+export const LogoutContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: #5f6c73;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+
+  width: 100%;
+
+  &:hover {
+    color: #2d2d2d;
+  }
+`;
+
+export default function Sidebar() {
   return (
     <SidebarContainer>
-      <p>Findash</p>
-      <p>Home</p>
-      <p>Dashboard</p>
-      <p>Logout</p>
+      <div>
+        <LogoContainer>Findash</LogoContainer>
+        <NavItemsContainer>
+          <NavItemContainer>
+            <House size={24} /> Home
+          </NavItemContainer>
+          <NavItemContainer>
+            <Gauge size={24} /> Dashboard
+          </NavItemContainer>
+        </NavItemsContainer>
+      </div>
+      <LogoutContainer>
+        Logout
+        <SignOut size={24} />
+      </LogoutContainer>
     </SidebarContainer>
   );
 }
