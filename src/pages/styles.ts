@@ -62,6 +62,10 @@ export const Button = styled.button`
   color: white;
 
   font-weight: bold;
+
+  &:hover {
+    filter: brightness(0.9);
+  }
 `;
 
 export const MessageError = styled.p`

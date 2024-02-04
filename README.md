@@ -15,13 +15,15 @@ Done:
 - Implement toast alerts
 - API Route to verify token
 - Private /dashboard route
+- Sidebar (Home + Active Route)
+- Logout
+- Mock data to build dashboards and cards (Highcharts)
 
 To do:
-- Sidebar (Home + Logout)
 - Responsive design
 - Update README to run project
 - Vercel deploy
-- Mock data to build dashboards and cards (Charts.js or Highcharts)
+- Implement dashboards with real data
 - Implement filters to see dashboards (date, account, industry and state)
 - Save in local storage filter config by user
 - Unit tests

@@ -149,7 +149,7 @@ const Dashboard = () => {
   return (
     <>
       <DashboardContainer>
-        <Sidebar />
+        <Sidebar activePage="dashboard" />
         <ContentContainer>
           <Title>Dashboard</Title>
           <FiltersContainer>

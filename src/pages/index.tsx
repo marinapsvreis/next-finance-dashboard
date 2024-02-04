@@ -64,7 +64,7 @@ export default function Home() {
 
       toast.success("Login successful");
       setTimeout(() => {
-        window.location.href = "/dashboard";
+        window.location.href = "/home";
       }, 2000);
     } catch (error) {
       toast.error(`Login failed: ${error}`);
