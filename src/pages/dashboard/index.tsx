@@ -4,12 +4,15 @@ import Cookies from "js-cookie";
 import Sidebar from "@/components/Sidebar";
 import BarGraphic from "@/components/BarGraphic";
 import LineGraphic from "@/components/LineGraphic";
+import React from "react";
+import Select from "react-select";
 import {
   CardsContainer,
   ContentContainer,
   DashboardContainer,
   FiltersContainer,
   GraphContainer,
+  StyledSelect,
   Title,
 } from "./styles";
 import { CaretDown, CaretUp, Coins, Warning } from "@phosphor-icons/react";
@@ -151,14 +154,18 @@ const Dashboard = () => {
           <Title>Dashboard</Title>
           <FiltersContainer>
             {Object.entries(filterLists).map(([key, options], index) => (
-              <select key={index} name={key} id={key}>
-                <option value="">All</option>
-                {options.map((option, optionIndex) => (
-                  <option key={optionIndex} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
+              <StyledSelect
+                key={key}
+                options={(options as string[]).map(
+                  (option: string, optionIndex: number) => ({
+                    value: optionIndex,
+                    label: option,
+                  })
+                )}
+                isSearchable={false}
+                placeholder={`All ${key}`}
+                isMulti
+              />
             ))}
           </FiltersContainer>
           <CardsContainer>

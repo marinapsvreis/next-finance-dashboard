@@ -1,4 +1,6 @@
+import Select, { Props } from "react-select";
 import styled from "styled-components";
+import { ComponentType } from "react";
 
 export const DashboardContainer = styled.div`
   background-color: #fafafa;
@@ -41,4 +43,8 @@ export const GraphContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+`;
+
+export const StyledSelect: ComponentType<Props<any, boolean>> = styled(Select)`
+  width: 300px;
 `;
