@@ -47,12 +47,16 @@ Done:
 - Button to go login on register screen
 - Update README to run project
 - Vercel deploy
-
-Pending:
-- Sidebar responsive
 - Implement dashboards with real data from API routes
 - Implement filters state to see dashboards (date, account, industry and state)
+
+Pending:
+- Add token to dashboard requests
+- Adujust monthYear legend in line chart.
+- Sidebar responsive
 - Save in local storage filter config by user
+- Use layout Next feature to improve screens
+- Implement some animations to wait loading API Requests
 - Unit tests
 - Cache Next.js
 

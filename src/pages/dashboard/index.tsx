@@ -16,7 +16,6 @@ import {
 } from "../../styles/dashboard/styles";
 import { CaretDown, CaretUp, Coins, Warning } from "@phosphor-icons/react";
 import CardDashboard from "@/components/CardDashboard";
-import { set } from "react-hook-form";
 
 interface ChartDataItem {
   name: string;
