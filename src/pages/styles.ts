@@ -81,3 +81,35 @@ export const MessageError = styled.p`
   font-size: 14px;
   margin-top: -12px;
 `;
+
+export const RegisterText = styled.p`
+  color: #5f6c73;
+  text-align: center;
+  margin-top: -4px;
+
+  & > a {
+    color: #4996fe;
+    text-decoration: none;
+
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+`;
+
+export const LoginText = styled.p`
+  color: #5f6c73;
+  text-align: center;
+  margin-top: -4px;
+
+  & > a {
+    color: #4996fe;
+    text-decoration: none;
+
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+`;

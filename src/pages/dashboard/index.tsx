@@ -12,7 +12,6 @@ import {
   DashboardContainer,
   FiltersContainer,
   GraphContainer,
-  StyledSelect,
   Title,
 } from "./styles";
 import { CaretDown, CaretUp, Coins, Warning } from "@phosphor-icons/react";

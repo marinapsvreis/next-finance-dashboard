@@ -13,6 +13,7 @@ import {
   FormContainer,
   LeftContainer,
   LoginContainer,
+  LoginText,
   MessageError,
   RightContainer,
 } from "@/pages/styles";
@@ -63,6 +64,10 @@ export default function Register() {
     } catch (error) {
       toast.error(`Registration failed: ${error}`);
     }
+  };
+
+  const handleGoToLogin = () => {
+    window.location.href = "/";
   };
 
   return (
@@ -124,6 +129,7 @@ export default function Register() {
               )}
 
               <Button type="submit">Sign up</Button>
+              <LoginText>Have an account? <a onClick={handleGoToLogin}>Login here</a></LoginText>
             </FormContainer>
           </LoginContainer>
         </RightContainer>

@@ -14,6 +14,7 @@ import {
   LeftContainer,
   LoginContainer,
   MessageError,
+  RegisterText,
   RightContainer,
 } from "@/pages/styles";
 
@@ -71,6 +72,10 @@ export default function Home() {
     }
   };
 
+  const handleGoToRegister = () => {
+    window.location.href = "/register";
+  };
+
   return (
     <>
       <Container>
@@ -108,6 +113,7 @@ export default function Home() {
                 <MessageError>{errors.password.message}</MessageError>
               )}
               <Button type="submit">Sign in</Button>
+              <RegisterText>Don't have an account? <a onClick={handleGoToRegister}>Register here</a></RegisterText>
             </FormContainer>
           </LoginContainer>
         </RightContainer>

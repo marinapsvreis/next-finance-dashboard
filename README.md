@@ -1,31 +1,57 @@
-## Todo List for this project
+## How to run this project:
+- You need to clone this repository
+- Run ```npm install```
+- Configure ```.env``` with 3 variables: DATABASE_URL, DIRECT_URL, SESSION_SECRET.
+- Run ```npm run dev```
+
+## Used techs:
+- Next.js (Pages router)
+- Typescript
+- React Hook Form
+- Yup
+- React Select
+- Styled Components
+- Phosphor icons
+- React toastify
+- Prisma
+- PostgreeSQL (from Supabase)
+- Js Cookie
+- Jose
+- Bcrypt
+- Highcharts
+
+
+## Todo List for this project:
 
 Done:
 - Page to login
 - Page to register
-- Page to dashboard
-- Config styled components
-- Config prisma
+- Page to see dashboard
+- Config styled components with Next.js
+- Config prisma with PostgreeSQL
 - Connect to supabase
-- Login api route
-- Register api route
+- API Route to Login
+- API Route to Register
 - JWT Authentication
-- Separate prisma client
 - Validate form fields
 - Implement toast alerts
+- API Route to get filters list (dates, industries, accounts and states)
+- API Route to get some data insights from transactions.json
 - API Route to verify token
-- Private /dashboard route
+- Private /dashboard route based on Cookie with valit JWT Token
 - Sidebar (Home + Active Route)
-- Logout
+- Logout feature
 - Mock data to build dashboards and cards (Highcharts)
-
-To do:
-- Button to go create an account
-- Responsive design
+- Responsive design (without Sidebar and logout)
+- Button to go register on login screen
+- Button to go login on register screen
 - Update README to run project
 - Vercel deploy
-- Implement dashboards with real data
-- Implement filters to see dashboards (date, account, industry and state)
+
+Pending:
+- Sidebar responsive
+- Implement dashboards with real data from API routes
+- Implement filters state to see dashboards (date, account, industry and state)
 - Save in local storage filter config by user
 - Unit tests
 - Cache Next.js
