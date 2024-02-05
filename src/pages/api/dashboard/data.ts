@@ -6,7 +6,7 @@ import { JWTPayload } from "jose";
 interface Transaction {
   date: string;
   industry: string;
-  transaction_type: "deposit" | "withdraw";
+  transaction_type: string;
   amount: string;
 }
 
@@ -42,7 +42,7 @@ export default async function handler(
       data: Transaction[];
     }
 
-    const transactionsArray: Transaction[] = (transactions as TransactionsData).data;
+    const transactionsArray: Transaction[] = (transactions as unknown as TransactionsData).data;
 
     const filterTransactions = (items: Transaction[], selectedMonth: string | undefined, selectedYear: string | undefined): Transaction[] => {
       return items.filter((item) => {

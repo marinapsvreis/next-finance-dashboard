@@ -5,7 +5,7 @@ import transactions from "./transactions.json";
 interface Transaction {
   date: number;
   amount: string;
-  transaction_type: "deposit" | "withdraw";
+  transaction_type: string;
   currency: string;
   account: string;
   industry: string;

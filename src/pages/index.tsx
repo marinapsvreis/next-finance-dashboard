@@ -113,7 +113,7 @@ export default function Home() {
                 <MessageError>{errors.password.message}</MessageError>
               )}
               <Button type="submit">Sign in</Button>
-              <RegisterText>Don't have an account? <a onClick={handleGoToRegister}>Register here</a></RegisterText>
+              <RegisterText>Dont have an account? <a onClick={handleGoToRegister}>Register here</a></RegisterText>
             </FormContainer>
           </LoginContainer>
         </RightContainer>
