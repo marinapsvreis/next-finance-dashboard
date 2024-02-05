@@ -16,7 +16,7 @@ import {
   MessageError,
   RegisterText,
   RightContainer,
-} from "@/pages/_styles";
+} from "../styles/login/styles";
 
 import * as yup from "yup";
 
