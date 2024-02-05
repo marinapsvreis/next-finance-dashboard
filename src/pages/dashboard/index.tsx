@@ -28,6 +28,10 @@ export default function Dashboard() {
   const router = useRouter();
   const [barChartData, setBarChartData] = useState<ChartDataItem[]>([]);
   const [lineChartData, setLineChartData] = useState<ChartDataItem[]>([]);
+  const [income, setIncome] = useState(0);
+  const [expenses, setExpenses] = useState(0);
+  const [futureTransactions, setFutureTransactions] = useState(0);
+  const [balance, setBalance] = useState(0);
 
   const token = Cookies.get("token");
 
@@ -145,6 +149,49 @@ export default function Dashboard() {
     verifyToken();
   }, [router]);
 
+  const handleFilterUpdate = async () => {
+    try {
+      const queryParams = new URLSearchParams();
+
+      filterLists.dates.forEach((date) => {
+        queryParams.append("months", date);
+      });
+
+      filterLists.industries.forEach((industry) => {
+        queryParams.append("industries", industry);
+      });
+
+      filterLists.accounts.forEach((account) => {
+        queryParams.append("accounts", account);
+      });
+
+      filterLists.states.forEach((state) => {
+        queryParams.append("states", state);
+      });
+
+      const response = await fetch(
+        `/api/dashboard/cardsData?token=${token}&${queryParams.toString()}`
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+
+        setIncome(Number(data.depositsSum));
+        setExpenses(Number(data.withdrawsSum));
+        setFutureTransactions(Number(data.futureTransactionsSum));
+      } else {
+        throw new Error("Error fetching chart data");
+      }
+    } catch (error) {
+      console.error("Error fetching chart data:", error);
+    }
+  };
+
+  useEffect(() => {
+    handleFilterUpdate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterLists]);
+
   return (
     <>
       <DashboardContainer>
@@ -164,28 +211,34 @@ export default function Dashboard() {
                 isSearchable={false}
                 placeholder={`All ${key}`}
                 isMulti
+                onChange={(selectedOptions) => {
+                  setFilterLists({
+                    ...filterLists,
+                    [key]: selectedOptions.map((option) => option.label),
+                  });
+                }}
               />
             ))}
           </FiltersContainer>
           <CardsContainer>
             <CardDashboard
               icon={<CaretUp size={42} color="#4996FE" />}
-              amount={"$ 1000.00"}
+              amount={`$ ${income.toFixed(2)}`}
               description="Income"
             />
             <CardDashboard
               icon={<CaretDown size={42} color="#4996FE" />}
-              amount={"$ 500.00"}
+              amount={`$ ${expenses.toFixed(2)}`}
               description="Expenses"
             />
             <CardDashboard
               icon={<Warning size={42} color="#4996FE" />}
-              amount={"$ 200.00"}
+              amount={`$ ${futureTransactions.toFixed(2)}`}
               description="Pending Transactions"
             />
             <CardDashboard
               icon={<Coins size={42} color="#4996FE" />}
-              amount={"$ 300.00"}
+              amount={`$ ${balance.toFixed(2)}`}
               description="Total Balance"
             />
           </CardsContainer>
@@ -203,4 +256,4 @@ export default function Dashboard() {
       </DashboardContainer>
     </>
   );
-};
+}

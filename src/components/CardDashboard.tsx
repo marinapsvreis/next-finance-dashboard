@@ -29,14 +29,14 @@ export const Card = styled.div`
     align-items: flex-end;
 
     & > p:first-child {
-      font-size: 40px;
+      font-size: 32px;
       font-weight: 600;
       margin: 0;
       color: #5f6c73;
     }
 
     & > p:last-child {
-      font-size: 16px;
+      font-size: 14px;
       color: #5f6c73;
   }
 `;
