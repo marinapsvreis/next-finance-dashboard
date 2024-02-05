@@ -13,7 +13,7 @@ import {
   FiltersContainer,
   GraphContainer,
   Title,
-} from "../../pages/dashboard/_styles";
+} from "../../styles/dashboard/styles";
 import { CaretDown, CaretUp, Coins, Warning } from "@phosphor-icons/react";
 import CardDashboard from "@/components/CardDashboard";
 
