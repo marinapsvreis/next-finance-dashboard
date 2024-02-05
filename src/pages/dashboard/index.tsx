@@ -71,7 +71,6 @@ export default function Dashboard() {
   
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
   
         const newBarChartData = data.map(({ industry, withdrawsSum, depositsSum }) => ({
           name: industry,
@@ -99,7 +98,6 @@ export default function Dashboard() {
   
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
   
         const newBarChartData = data.map(({ industry, withdrawsSum, depositsSum }) => ({
           name: industry,
