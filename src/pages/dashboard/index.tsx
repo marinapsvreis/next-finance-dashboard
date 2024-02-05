@@ -61,56 +61,66 @@ export default function Dashboard() {
   });
 
   useEffect(() => {
-    const industriesData = {
-      Advertising: {
-        totalRevenues: 699.23,
-        totalExpenses: 577.5600000000001,
+    const industriesData = [
+      {
+        industry: "Advertising",
+        withdrawsSum: "577.56",
+        depositsSum: "699.23",
       },
-      Apparel: {
-        totalRevenues: 6804.15,
-        totalExpenses: 6433.9900000000025,
+      {
+        industry: "Apparel",
+        withdrawsSum: "6433.99",
+        depositsSum: "6804.15",
       },
-      "Food Consumer Products": {
-        totalRevenues: 9850.349999999997,
-        totalExpenses: 10006.429999999995,
+      {
+        industry: "Food Consumer Products",
+        withdrawsSum: "10006.43",
+        depositsSum: "9850.35",
       },
-      "Oil and Gas Equipment": {
-        totalRevenues: 6799.259999999998,
-        totalExpenses: 7002.079999999998,
+      {
+        industry: "Oil and Gas Equipment",
+        withdrawsSum: "7002.08",
+        depositsSum: "6799.26",
       },
-      Hotels: {
-        totalRevenues: 5361.140000000002,
-        totalExpenses: 5162.6900000000005,
+      {
+        industry: "Hotels",
+        withdrawsSum: "5162.69",
+        depositsSum: "5361.14",
       },
-      Airlines: {
-        totalRevenues: 3867.789999999999,
-        totalExpenses: 3437.809999999999,
+      {
+        industry: "Airlines",
+        withdrawsSum: "3437.81",
+        depositsSum: "3867.79",
       },
-      "Computer Software": {
-        totalRevenues: 6369.54,
-        totalExpenses: 5595.59,
+      {
+        industry: "Computer Software",
+        withdrawsSum: "5595.59",
+        depositsSum: "6369.54",
       },
-      Education: {
-        totalRevenues: 907.24,
-        totalExpenses: 1118.1399999999999,
+      {
+        industry: "Education",
+        withdrawsSum: "1118.14",
+        depositsSum: "907.24",
       },
-      "Automotive Retailing": {
-        totalRevenues: 4025.479999999999,
-        totalExpenses: 3261.4899999999993,
+      {
+        industry: "Automotive Retailing",
+        withdrawsSum: "3261.49",
+        depositsSum: "4025.48",
       },
-      Mail: {
-        totalRevenues: 592.12,
-        totalExpenses: 748.9300000000001,
+      {
+        industry: "Mail",
+        withdrawsSum: "748.93",
+        depositsSum: "592.12",
       },
-    };
+    ];    
 
-    const newChartData = Object.entries(industriesData).map(
-      ([industry, data]) => ({
-        name: industry,
-        deposit: data.totalRevenues,
-        withdraw: data.totalExpenses,
-      })
-    );
+    const newChartData = industriesData.map(({ industry, withdrawsSum, depositsSum }) => ({
+      name: industry,
+      deposit: Number(depositsSum),
+      withdraw: Number(withdrawsSum),
+    }));
+
+    console.log(newChartData)
 
     setBarChartData(newChartData);
     setLineChartData(newChartData);
