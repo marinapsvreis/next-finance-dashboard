@@ -16,7 +16,7 @@ import {
   LoginText,
   MessageError,
   RightContainer,
-} from "@/pages/_styles";
+} from "../../styles/general/styles";
 
 const schema = yup.object().shape({
   name: yup.string().min(2).max(50).required(),
