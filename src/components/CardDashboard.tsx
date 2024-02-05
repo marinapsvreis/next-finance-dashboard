@@ -4,12 +4,12 @@ export const Card = styled.div`
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-  width: 430px;
   padding-inline: 20px;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-block: 10px;
 
   & > p {
     display: flex;

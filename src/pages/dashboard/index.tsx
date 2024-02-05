@@ -154,7 +154,7 @@ const Dashboard = () => {
           <Title>Dashboard</Title>
           <FiltersContainer>
             {Object.entries(filterLists).map(([key, options], index) => (
-              <StyledSelect
+              <Select
                 key={key}
                 options={(options as string[]).map(
                   (option: string, optionIndex: number) => ({

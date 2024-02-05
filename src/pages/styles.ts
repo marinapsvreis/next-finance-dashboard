@@ -13,9 +13,13 @@ export const LeftContainer = styled.div`
   width: 50%;
   height: 100%;
 
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
+
+  @media (min-width: 1400px) {
+    display: flex;
+  }
 
   & > img {
     width: 100%;
@@ -25,8 +29,12 @@ export const LeftContainer = styled.div`
 `;
 
 export const RightContainer = styled.div`
-  width: 50%;
+  width: 100%;
   height: 100%;
+
+  @media (min-width: 1400px) {
+    width: 50%;
+  }
 
   display: flex;
   align-items: center;
@@ -55,10 +63,10 @@ export const Button = styled.button`
   width: 100%;
   height: 40px;
   margin-top: 8px;
-  border: 1px solid #4996FE;
+  border: 1px solid #4996fe;
   border-radius: 4px;
 
-  background-color: #4996FE;
+  background-color: #4996fe;
   color: white;
 
   font-weight: bold;

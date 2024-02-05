@@ -7,12 +7,15 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: calc(100vw - 320px);
+  width: 100vw;
   height: 100vh;
-
+  
   text-align: center;
-
-  margin-left: 320px;
+  
+  @media (min-width: 768px) {
+    width: calc(100vw - 320px);
+    margin-left: 320px;
+  }  
 `;
 
 const Button = styled.button`

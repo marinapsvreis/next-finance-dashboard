@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 const GraphCard = styled.div`
   height: 440px;
-  width: 749px;
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;

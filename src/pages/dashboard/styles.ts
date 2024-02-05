@@ -15,9 +15,12 @@ export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px;
+  width: 100vw;
 
-  margin-left: 320px;
-  max-width: calc(100vw - 320px);
+  @media (min-width: 768px) {    
+    margin-left: 320px;
+    max-width: calc(100vw - 320px);
+  }
 `;
 
 export const Title = styled.div`
@@ -25,26 +28,26 @@ export const Title = styled.div`
   font-size: 24px;
   margin-bottom: 20px;
   width: 100%;
+
+  display: flex;
 `;
 
 export const FiltersContainer = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
   margin-bottom: 20px;
 `;
 
 export const CardsContainer = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
   margin-bottom: 20px;
 `;
 
 export const GraphContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
   gap: 20px;
-`;
-
-export const StyledSelect: ComponentType<Props<any, boolean>> = styled(Select)`
-  width: 300px;
 `;
