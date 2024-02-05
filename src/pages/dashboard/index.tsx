@@ -268,7 +268,7 @@ export default function Dashboard() {
               chartData={barChartData}
             />
             <LineGraphic
-              title="Deposits and Withdraws by Industry"
+              title="Deposits and Withdraws by Month/Year"
               chartData={lineChartData}
             />
           </GraphContainer>
