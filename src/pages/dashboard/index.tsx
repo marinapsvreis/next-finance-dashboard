@@ -60,71 +60,67 @@ export default function Dashboard() {
     states: [],
   });
 
+  const fetchDataByIndustry = async (filters) => {
+    try {
+      const queryParams = new URLSearchParams({
+        months: filters.dates.join("&months="),
+        industries: filters.industries.join("&industries="),
+      });
+  
+      const response = await fetch(`/api/dashboard/dataByIndustry?${queryParams.toString()}`);
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+  
+        const newBarChartData = data.map(({ industry, withdrawsSum, depositsSum }) => ({
+          name: industry,
+          deposit: Number(depositsSum),
+          withdraw: Number(withdrawsSum),
+        }));
+  
+        setBarChartData(newBarChartData);
+      } else {
+        throw new Error("Error fetching data");
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  
+  const fetchDataByMonthYear = async (filters) => {
+    try {
+      const queryParams = new URLSearchParams({
+        months: filters.dates.join("&months="),
+        industries: filters.industries.join("&industries="),
+      });
+  
+      const response = await fetch(`/api/dashboard/dataByDate?${queryParams.toString()}`);
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+  
+        const newBarChartData = data.map(({ industry, withdrawsSum, depositsSum }) => ({
+          name: industry,
+          deposit: Number(depositsSum),
+          withdraw: Number(withdrawsSum),
+        }));
+  
+        setLineChartData(newBarChartData);
+      } else {
+        throw new Error("Error fetching data");
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   useEffect(() => {
-    const industriesData = [
-      {
-        industry: "Advertising",
-        withdrawsSum: "577.56",
-        depositsSum: "699.23",
-      },
-      {
-        industry: "Apparel",
-        withdrawsSum: "6433.99",
-        depositsSum: "6804.15",
-      },
-      {
-        industry: "Food Consumer Products",
-        withdrawsSum: "10006.43",
-        depositsSum: "9850.35",
-      },
-      {
-        industry: "Oil and Gas Equipment",
-        withdrawsSum: "7002.08",
-        depositsSum: "6799.26",
-      },
-      {
-        industry: "Hotels",
-        withdrawsSum: "5162.69",
-        depositsSum: "5361.14",
-      },
-      {
-        industry: "Airlines",
-        withdrawsSum: "3437.81",
-        depositsSum: "3867.79",
-      },
-      {
-        industry: "Computer Software",
-        withdrawsSum: "5595.59",
-        depositsSum: "6369.54",
-      },
-      {
-        industry: "Education",
-        withdrawsSum: "1118.14",
-        depositsSum: "907.24",
-      },
-      {
-        industry: "Automotive Retailing",
-        withdrawsSum: "3261.49",
-        depositsSum: "4025.48",
-      },
-      {
-        industry: "Mail",
-        withdrawsSum: "748.93",
-        depositsSum: "592.12",
-      },
-    ];    
-
-    const newChartData = industriesData.map(({ industry, withdrawsSum, depositsSum }) => ({
-      name: industry,
-      deposit: Number(depositsSum),
-      withdraw: Number(withdrawsSum),
-    }));
-
-    console.log(newChartData)
-
-    setBarChartData(newChartData);
-    setLineChartData(newChartData);
-  }, []);
+    fetchDataByIndustry(selectedFilters);
+    fetchDataByMonthYear(selectedFilters);
+  }, [selectedFilters]);
+    
 
   useEffect(() => {
     const fetchFilterLists = async () => {
