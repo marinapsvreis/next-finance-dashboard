@@ -1,9 +1,9 @@
-import Image from "next/image";
-import { useForm, SubmitHandler } from "react-hook-form";
-import Input from "@/components/Input";
 import FormHeader from "@/components/FormHeader";
-import Cookies from "js-cookie";
+import Input from "@/components/Input";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Cookies from "js-cookie";
+import Image from "next/image";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -16,7 +16,7 @@ import {
   MessageError,
   RegisterText,
   RightContainer,
-} from "@/pages/styles";
+} from "@/pages/_styles";
 
 import * as yup from "yup";
 
@@ -113,7 +113,10 @@ export default function Home() {
                 <MessageError>{errors.password.message}</MessageError>
               )}
               <Button type="submit">Sign in</Button>
-              <RegisterText>Dont have an account? <a onClick={handleGoToRegister}>Register here</a></RegisterText>
+              <RegisterText>
+                Dont have an account?{" "}
+                <a onClick={handleGoToRegister}>Register here</a>
+              </RegisterText>
             </FormContainer>
           </LoginContainer>
         </RightContainer>

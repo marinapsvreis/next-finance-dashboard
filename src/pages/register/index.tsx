@@ -1,11 +1,11 @@
-import Image from "next/image";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import Input from "@/components/Input";
 import FormHeader from "@/components/FormHeader";
+import Input from "@/components/Input";
+import { yupResolver } from "@hookform/resolvers/yup";
+import Image from "next/image";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import * as yup from "yup";
 
 import {
   Button,
@@ -16,7 +16,7 @@ import {
   LoginText,
   MessageError,
   RightContainer,
-} from "@/pages/styles";
+} from "@/pages/_styles";
 
 const schema = yup.object().shape({
   name: yup.string().min(2).max(50).required(),
@@ -57,7 +57,7 @@ export default function Register() {
       }
 
       toast.success("Registration successful");
-      
+
       setTimeout(() => {
         window.location.href = "/";
       }, 2000);
@@ -129,7 +129,9 @@ export default function Register() {
               )}
 
               <Button type="submit">Sign up</Button>
-              <LoginText>Have an account? <a onClick={handleGoToLogin}>Login here</a></LoginText>
+              <LoginText>
+                Have an account? <a onClick={handleGoToLogin}>Login here</a>
+              </LoginText>
             </FormContainer>
           </LoginContainer>
         </RightContainer>
