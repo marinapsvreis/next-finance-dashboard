@@ -23,7 +23,7 @@ interface ChartDataItem {
   deposit: number;
 }
 
-const Dashboard = () => {
+export default function Dashboard() {
   const [tokenValid, setTokenValid] = useState(false);
   const router = useRouter();
   const [barChartData, setBarChartData] = useState<ChartDataItem[]>([]);
@@ -204,5 +204,3 @@ const Dashboard = () => {
     </>
   );
 };
-
-export default Dashboard;

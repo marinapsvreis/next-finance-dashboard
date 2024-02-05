@@ -4,7 +4,7 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
-  pageExtensions: ['page.tsx', 'route.ts']
+  // pageExtensions: ['*.tsx', '*.ts']
 };
 
 export default nextConfig;
