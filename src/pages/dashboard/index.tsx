@@ -16,6 +16,7 @@ import {
 } from "../../styles/dashboard/styles";
 import { CaretDown, CaretUp, Coins, Warning } from "@phosphor-icons/react";
 import CardDashboard from "@/components/CardDashboard";
+import { set } from "react-hook-form";
 
 interface ChartDataItem {
   name: string;
@@ -36,6 +37,18 @@ export default function Dashboard() {
   const token = Cookies.get("token");
 
   const [filterLists, setFilterLists] = useState<{
+    dates: string[];
+    industries: string[];
+    accounts: string[];
+    states: string[];
+  }>({
+    dates: [],
+    industries: [],
+    accounts: [],
+    states: [],
+  });
+
+  const [selectedFilters, setSelectedFilters] = useState<{
     dates: string[];
     industries: string[];
     accounts: string[];
@@ -153,19 +166,19 @@ export default function Dashboard() {
     try {
       const queryParams = new URLSearchParams();
 
-      filterLists.dates.forEach((date) => {
+      selectedFilters.dates.forEach((date) => {
         queryParams.append("months", date);
       });
 
-      filterLists.industries.forEach((industry) => {
+      selectedFilters.industries.forEach((industry) => {
         queryParams.append("industries", industry);
       });
 
-      filterLists.accounts.forEach((account) => {
+      selectedFilters.accounts.forEach((account) => {
         queryParams.append("accounts", account);
       });
 
-      filterLists.states.forEach((state) => {
+      selectedFilters.states.forEach((state) => {
         queryParams.append("states", state);
       });
 
@@ -179,6 +192,7 @@ export default function Dashboard() {
         setIncome(Number(data.depositsSum));
         setExpenses(Number(data.withdrawsSum));
         setFutureTransactions(Number(data.futureTransactionsSum));
+        setBalance(Number(data.depositsSum - data.withdrawsSum));
       } else {
         throw new Error("Error fetching chart data");
       }
@@ -190,7 +204,7 @@ export default function Dashboard() {
   useEffect(() => {
     handleFilterUpdate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterLists]);
+  }, [selectedFilters]);
 
   return (
     <>
@@ -212,8 +226,8 @@ export default function Dashboard() {
                 placeholder={`All ${key}`}
                 isMulti
                 onChange={(selectedOptions) => {
-                  setFilterLists({
-                    ...filterLists,
+                  setSelectedFilters({
+                    ...selectedFilters,
                     [key]: selectedOptions.map((option) => option.label),
                   });
                 }}
